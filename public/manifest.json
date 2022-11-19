@@ -1,0 +1,58 @@
+{
+    "name": "Instagram as Progressive Web App",
+    "short_name": "PWAGram",
+    "icons": [
+        {
+            "src": "/src/images/icons/app-icon-48x48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/src/images/icons/app-icon-96x96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/src/images/icons/app-icon-144x144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/src/images/icons/app-icon-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/src/images/icons/app-icon-256x256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/src/images/icons/app-icon-384x384.png",
+            "type": "image/png",
+            "sizes": "384x384"
+        },
+        {
+            "src": "/src/images/icons/app-icon-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/index.html",
+    "scope": ".",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#fff",
+    "theme_color": "#3f51b5",
+    "description": "pwa web app",
+    "dir": "ltr",
+    "lang": "en-US",
+    "related_applications": [
+        {
+            "platform": "play",
+            "url": "#",
+            "id": "com.example.app1"
+        }
+    ],
+    "manifest_description": "name: is long name on app(e.g. on splashscreen) | short_name: short name of app (e.g below icon) | start_url: which page load on startup | scope: '.' which pages are included in PWA Experience(dot means all routes)  | display:  means how it should look like(standalone means without address bar / fullscreen = any control shows / minimal-ui = reduce ui elements / browser = like browser itself) | background_color: color of whilst loading & on Splashscreen | theme_color: (e.g on top bar in task switcher) | description: what is your app | dir: direction of your app | lang: main language of app | orientation: of your app | icons: config icons(e.g on homescreen) | related_applications: navite apps that are your apps on store"
+}
