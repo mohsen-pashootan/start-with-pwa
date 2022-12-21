@@ -6,6 +6,7 @@ self.addEventListener("install", function (event) {
       cache.addAll([
         "/", // must add '/', for we cache urls not files. we cache requests
         "/index.html",
+        "/offline.html",
         "/src/js/app.js",
         "/src/js/app.js",
         "/src/js/material.min.js",
@@ -46,11 +47,15 @@ self.addEventListener("fetch", function (event) {
         return fetch(event.request)
           .then(function (res) {
             return caches.open("dynamic").then(function (cache) {
-              cache.put(event.request.url, res.clone());
+              cache.put(event.request.url, res.clone()); //dynamic caching
               return res;
             });
           })
-          .catch(function (err) {});
+          .catch(function (err) {
+            return caches.open(CACHE_STATIC_NAME).then(function (cache) {
+              return cache.match("/offline.html");
+            });
+          });
       }
     })
   );
