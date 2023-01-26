@@ -280,7 +280,11 @@ self.addEventListener("notificationclose", function (event) {
 self.addEventListener("push", function (event) {
   console.log("Push Notification received", event);
 
-  var data = { title: "New!", content: "Something new happened!" };
+  var data = {
+    title: "New!",
+    content: "Something new happened!",
+    openUrl: "/",
+  };
 
   if (event.data) {
     data = JSON.parse(event.data.text());
@@ -290,6 +294,9 @@ self.addEventListener("push", function (event) {
     body: data.content,
     icon: "/src/images/icons/app-icon-96x96.png",
     badge: "/src/images/icons/app-icon-96x96.png",
+    data: {
+      url: data.openUrl,
+    },
   };
 
   event.waitUntil(self.registration.showNotification(data.title, options));
