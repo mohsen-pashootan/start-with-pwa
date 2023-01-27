@@ -1,13 +1,15 @@
 importScripts("/src/js/idb.js");
 importScripts("/src/js/utility.js");
 
-let CACHE_STATIC_NAME = "static-v17";
-let CACHE_DYNAMIC_NAME = "dynamic-v3";
+let CACHE_STATIC_NAME = "static-v18";
+let CACHE_DYNAMIC_NAME = "dynamic-v4";
 let STATIC_FILES = [
   "/", // must add '/', for we cache urls not files. we cache requests
   "/index.html",
   "/offline.html",
   "/src/js/app.js",
+  "/src/js/utility.js",
+  "/src/js/feed.js",
   "/src/css/feed.css",
   "/src/css/idb.css",
   "/src/js/material.min.js",
