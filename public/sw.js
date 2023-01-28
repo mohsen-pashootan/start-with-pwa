@@ -1,8 +1,8 @@
 importScripts("/src/js/idb.js");
 importScripts("/src/js/utility.js");
 
-let CACHE_STATIC_NAME = "static-v18";
-let CACHE_DYNAMIC_NAME = "dynamic-v4";
+let CACHE_STATIC_NAME = "static-v19";
+let CACHE_DYNAMIC_NAME = "dynamic-v5";
 let STATIC_FILES = [
   "/", // must add '/', for we cache urls not files. we cache requests
   "/index.html",
@@ -221,6 +221,8 @@ self.addEventListener("sync", function (event) {
           postData.append("id", dt.id);
           postData.append("title", dt.title);
           postData.append("location", dt.location);
+          postData.append("rawLocationLat", dt.rawLocation.lat);
+          postData.append("rawLocationLng", dt.rawLocation.lng);
           postData.append("file", dt.picture, dt.id + ".png");
 
           fetch(
