@@ -1,4 +1,6 @@
 importScripts("workbox-sw.prod.v2.0.0.js");
+importScripts("/src/js/idb.js");
+importScripts("/src/js/utility.js");
 
 const workboxSW = new self.WorkboxSW();
 
@@ -6,6 +8,10 @@ workboxSW.router.registerRoute(
   /.*(?:googleapis|gstatic)\.com.*$/,
   workboxSW.strategies.staleWhileRevalidate({
     cacheName: "google-fonts",
+    cacheExpiration: {
+      maxEntries: 3,
+      maxAgeSeconds: 60 * 60 * 24 * 30,
+    },
   })
 );
 
@@ -21,6 +27,52 @@ workboxSW.router.registerRoute(
   workboxSW.strategies.staleWhileRevalidate({
     cacheName: "post-images",
   })
+);
+
+workboxSW.router.registerRoute(
+  "https://pwagram-99adf.firebaseio.com/posts.json",
+  async function (args) {
+    return fetch(args.event.request).then(function (res) {
+      var clonedRes = res.clone();
+      clearAllData("posts")
+        .then(function () {
+          return clonedRes.json();
+        })
+        .then(function (data) {
+          for (var key in data) {
+            writeData("posts", data[key]);
+          }
+        });
+      return res;
+    });
+  }
+);
+
+workboxSW.router.registerRoute(
+  function (routeData) {
+    // actualy this line will return all routes that match the condition
+    return routeData.event.request.headers.get("accept").includes("text/html");
+  },
+  async function (args) {
+    return caches.match(args.event.request).then(function (response) {
+      if (response) {
+        return response;
+      } else {
+        return fetch(args.event.request)
+          .then(function (res) {
+            return caches.open("dynamic").then(function (cache) {
+              cache.put(args.event.request.url, res.clone());
+              return res;
+            });
+          })
+          .catch(function (err) {
+            return caches.match("/offline.html").then(function (res) {
+              return res;
+            });
+          });
+      }
+    });
+  }
 );
 
 workboxSW.precache([
@@ -42,7 +94,7 @@ workboxSW.precache([
   },
   {
     "url": "service-worker.js",
-    "revision": "6e3b958bb045ec8480c863f7bf577169"
+    "revision": "be1e33eca3019643b5f9fbc12b15c4c6"
   },
   {
     "url": "src/css/app.css",
@@ -78,7 +130,7 @@ workboxSW.precache([
   },
   {
     "url": "sw-base.js",
-    "revision": "8a8afb83fc57a4cd7c45fb53a68ec8bf"
+    "revision": "014dd48bac09fccb5c8b9bbe93901e67"
   },
   {
     "url": "sw.js",
@@ -105,3 +157,6 @@ workboxSW.precache([
     "revision": "0f282d64b0fb306daf12050e812d6a19"
   }
 ]);
+
+// staleWhileRevalidate is like :
+// "cache then network for selected url | cache with network fallback for other requests" strategy
